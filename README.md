@@ -23,3 +23,16 @@ Use the following command to start the FastAPI server:
 ```bash
 uvicorn app.main:app --reload
 ```
+# RAGProject MVP
+
+这是一个最小可运行的 FastAPI 项目骨架，用于后续扩展为 RAG / NL2SQL / Agent 系统。
+
+## 功能
+
+- `GET /health`：健康检查
+- `POST /query`：接收自然语言问题，返回占位 SQL、模拟结果和后续建议
+
+## 安装
+
+```bash
+pip install -r requirements.txt
