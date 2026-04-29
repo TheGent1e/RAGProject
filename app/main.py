@@ -1,1 +1,16 @@
-from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get("/health")\ndef health():\n    return {"status": "healthy"}\n\n@app.post("/query")\ndef query(natural_language: str):\n    # Placeholder for NL2SQL logic\n    sql = f"SELECT * FROM table WHERE condition LIKE '%{{natural_language}}%'"\n    results = [{"data": "example data"}]\n    suggestions = ["Refine your query", "Try another question"]\n    return {"sql": sql, "results": results, "suggestions": suggestions}
+from fastapi import FastAPI
+from app.schemas import QueryRequest, QueryResponse
+from app.agent import run_query
+
+app = FastAPI(title="RAGProject MVP", version="0.1.0")
+
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
+
+
+@app.post("/query", response_model=QueryResponse)
+def query(request: QueryRequest):
+    sql, results, suggestions = run_query(request.natural_language)
+    return QueryResponse(sql=sql, results=results, suggestions=suggestions)
