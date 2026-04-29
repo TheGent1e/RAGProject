@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from app.schemas import QueryRequest, QueryResponse
-from app.agent import run_query
+from app.agent import answer_question
 
-app = FastAPI(title="RAGProject MVP", version="0.1.0")
+app = FastAPI(title="RAGProject RAG/NL2SQL MVP", version="0.2.0")
 
 
 @app.get("/health")
@@ -12,5 +12,10 @@ def health():
 
 @app.post("/query", response_model=QueryResponse)
 def query(request: QueryRequest):
-    sql, results, suggestions = run_query(request.natural_language)
-    return QueryResponse(sql=sql, results=results, suggestions=suggestions)
+    sql, results, explanation, contexts = answer_question(request.natural_language)
+    return QueryResponse(
+        sql=sql,
+        results=results,
+        explanation=explanation,
+        retrieved_context=contexts,
+    )

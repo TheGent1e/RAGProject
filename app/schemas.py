@@ -9,4 +9,5 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     sql: str
     results: List[Dict[str, Any]]
-    suggestions: List[str]
+    explanation: str
+    retrieved_context: List[str]
